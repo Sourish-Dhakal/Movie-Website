@@ -1,0 +1,337 @@
+<html>
+<head>
+  <script src="https://kit.fontawesome.com/b6d7aac99c.js" crossorigin="anonymous"></script>
+<style>
+  body {
+    margin:0px;
+    background-color:#22254B;
+  }
+  .movies { 
+    width:100%;
+    height:auto;
+    display:flex;
+    justify-content:space-evenly;
+    margin-top:20px;
+  }
+  .movie {
+    width:15%;
+    height:30%;
+    background-color:#373B69;
+    padding:0px;
+  }
+  .movieImg {
+    width:100%;
+  }
+  .movieName {
+    color:white;
+    margin:10px;
+    font-size:17px;
+    float:left;
+    width:120px;
+  }
+  .rating {
+    font-size:15px;
+    background-color:#22254B;
+    color:#FFA512;
+    width:20px;
+    padding:3px;
+    float:right;
+    margin-right:40px;
+  }
+  .Overview::before {
+    font-weight:bold;
+    content:"Overview";
+    display:block;
+    margin:10px;
+    font-size:15px;
+  }
+  .Overview {
+    width:12.4%;
+    font-size:13px;
+    background-color:white;
+    padding:20px;
+    display:none;
+    margin-top:-100px;
+    position:absolute;
+    left:auto;
+    height:300px;
+    animation-name:movieAnimation2;
+    animation-duration: 1000ms;
+  }
+  .movie:hover .Overview {
+    display:block;
+    margin-top:-300px;
+    animation-name:movieAnimation;
+    animation-duration: 1000ms;
+  }
+  @keyframes movieAnimation {
+    from {margin-top:-100px;}
+    to {margin-top:-300px;}
+  }
+  #modal {
+    background-color:black;
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    min-height:100%;
+  }
+  .modalText {
+    color:white;
+    font-size:50px;
+  }
+  .modalText span {
+    color:black;
+  }
+</style>
+</head>
+
+<body id="content">
+  <div id="modal" style="display:none;">
+    <center>
+      <h1 class="modalText" id="Name" style="color:white;"></h1>
+      <video width="1000px" height="auto" controls id="video"><source id="source" type="video/mp4"></video>
+      <div style="display:flex;padding-left:12.5%;padding-right:12.5%;width:75%;padding-top:3%;padding-bottom:3%;justify-content:space-evenly;margin-top:50px;background-color:rgb(155,155,155);border:5px solid white;border-style:solid hidden solid hidden;">
+      <div style="margin-right:1%;">
+      <h1 id="rating" class="modalText"></h1>
+      <p style="background-color:white;padding:20px;height:354px;font-size:larger;border-radius:50px;border:5px solid black;" id="Description"></p>
+      </div>
+      <img id="Image" style="width:auto;height:500px;border:5px solid black;">
+      </div>
+    </center>
+  </div>
+
+
+<script>
+  const Movies = [
+  "GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4",
+  "The everything gc - Discord 2022-08-18 07-44-12.mp4",
+  "The everything gc - Discord 2022-08-29 22-45-31.mp4"
+
+  ,"GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4",
+  "The everything gc - Discord 2022-08-18 07-44-12.mp4",
+  "The everything gc - Discord 2022-08-29 22-45-31.mp4"
+
+  ,"GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4",
+  "The everything gc - Discord 2022-08-18 07-44-12.mp4",
+  "The everything gc - Discord 2022-08-29 22-45-31.mp4"
+
+  ,"GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4",
+  "The everything gc - Discord 2022-08-18 07-44-12.mp4",
+  "The everything gc - Discord 2022-08-29 22-45-31.mp4"
+
+  ,"GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4",
+  "The everything gc - Discord 2022-08-18 07-44-12.mp4",
+  "The everything gc - Discord 2022-08-29 22-45-31.mp4"
+
+  ,"GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4",
+  "The everything gc - Discord 2022-08-18 07-44-12.mp4",
+  "The everything gc - Discord 2022-08-29 22-45-31.mp4"
+
+  ,"GIF.mp4",
+  "gigachad_leaf.mp4",
+  "NO Emoji Coming Back.mp4",
+  "OLD SPOR.mp4"
+  ]
+  const MovieNames = [
+    "Halloween Ends",
+    'Orphan: First Kill',
+    "Project Gemini",
+    "Fall",
+    "Spiderman",
+    "Full Metal Alchemist: The Final Alchemy",
+    "Scream (1996)",
+    "Scream 2 (1997)",
+    "Scream 3 (2000)",
+    "Scream 4 (2011)",
+    "Scream 5 (2022)",
+    "Scream 6 (2023)",
+    "Friday the 13th (1980)",
+    "Friday the 13th Part 2 (1981)",
+    "Friday the 13th Part III (1982)",
+    "Friday the 13th: The Final Chapter (1984)",
+    "Friday the 13th: A New Beginning (1985)",
+    "Friday the 13th: Part VI: Jason Lives (1986)",
+    "Friday the 13th: Part VII: The New Blood (1988)",
+    "Friday the 13th: Part VII: Jason Takes Manhattan (1989)",
+    "Jason Goes to Hell: The Final Friday (1993)",
+    "Saw (2004)",
+    "Saw II (2005)",
+    "Saw III (2006)",
+    "Saw IV (2007)",
+    "Saw V (2008)",
+    "Saw VI (2009)",
+    "Saw 3D (2010)",
+    "Jigsaw (2017)",
+    "Spiral (2021)",
+    "A Nightmare on Elm Street (1984)",
+    "A Nightmare on Elm Street Part 2: Freddy's Revenge (1985)",
+    "A Nightmare on Elm Street 3: Dream Warriors (1987)",
+    "A Nightmare on Elm Street 4: The Dream Master (1988)",
+    "A Nightmare on Elm Street 5: The Dream Child (1989)",
+    "Freddy's Dead: The Final Nightmare (1991)",
+    "Wes Craven's New Nightmare (1994)",
+    "The Conjuring (2013)",
+    "The Conjuring 2 (2016)",
+    "The Conjuring: The Devil Made Me Do it (2021)"
+    ]
+  const ImageLinks = [
+  'https://upload.wikimedia.org/wikipedia/en/thumb/d/d5/Halloween_ends_poster.jpg/220px-Halloween_ends_poster.jpg',
+  'https://m.media-amazon.com/images/M/MV5BZjgwNDA3MmUtMTQ3Yy00ZDFmLTgwMTktNTBlMTQ3ZTI5MjYxXkEyXkFqcGdeQXVyMTM1MTE1NDMx._V1_FMjpg_UX1000_.jpg',
+  'https://m.media-amazon.com/images/M/MV5BZWFlMTMyZjctNTcyYi00ODM2LWE1NDYtZWMyODI0MTNkMDc0XkEyXkFqcGdeQXVyNjMzNjY2NjQ@._V1_FMjpg_UX1000_.jpg' ,
+  'https://m.media-amazon.com/images/M/MV5BNGI3MWYwYjItNzZhYi00ZWIzLTkyMzYtN2JmNjg3ODg1NTg4XkEyXkFqcGdeQXVyMTMwMDA5ODU3._V1_.jpg',
+  'https://m.media-amazon.com/images/M/MV5BZDEyN2NhMjgtMjdhNi00MmNlLWE5YTgtZGE4MzNjMTRlMGEwXkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_FMjpg_UX1000_.jpg',
+  'https://www.themoviedb.org/t/p/w500/AeyiuQUUs78bPkz18FY3AzNFF8b.jpg'
+  ,"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQtWLu03bB5dBRlp70OYqeicYg9HXQ0yuaK3qZBnqACFxZ_SM5-"
+  ,"https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSXIFytmY18vYuoxKAo4Y_1Kdn1EVVdp9INOcn389cWbubNC6p6",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUyWKwC126YbuyGnQjCVkSI6SRa2r5SW1FdRf2pEOky9-Tn5Iw",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTdqgCKRBJRWs13wDDcrnjE8HwYAvw4beMgSAUrYJhPHOowcx-c",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcR-IaeZ6sX679wdJSb5JRNnB5DTtkL7E7SPe3B16duZGLQcqhnZ",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTGoEtN3Q1dYOOQMRLM9EZSi84znUryaJSjt1q7-E46XzWaQm_p",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSSMNML457bfLmgLiOHnVYeYGvEhIC6MmGvR3IEFX2Oukq8rClm",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRNx-Az4zlQ6p9H9RELChKUUdLmBhiUgCRy0KcBxBgNbmT13iwz",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRqgWcZCzAzg19vhGfx_LhMwMXBME9tKKtByGBnmx_YYDUmO8p5",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3qDFWs8xntRiQUV6mQY8jP6GPHQfQCeJpBhl0S_rGU8VKDgIy",
+  "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSTjLXkFgZ0FV_6blEF--wkcVioTHWrUmlmtPnGRtQvn0ZBVJOu",
+  "http://www.movienewsletters.net/photos/017845R1.jpg",
+  "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSiJTPixpYHdelFVq8RsG__O-lCnEhBmhgX287D6D1FcmABTeTS",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQxzjNUNzQlR3lsqH4sl3kydEnHAL8xU31LrWxhVDd6NrDTso7v",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRSTwKW6NIcAnUKCYJ62IotJCe8sfZ66DgBrZEwWkHq70OoRn1w",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS79yPneLesvIiX4yNm5hpW5HyXwLSLSzT6fTNu0GABEYlBFkDz",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQ2NGWYSZdsuGoFnlkBs0L0_DEfDPwifKsWRQsfjgK9laqmSTI9",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT4M7Y7KvmX4d-7284vusWcf_H220yu7iav9HMEcPeB9rfPCurx",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRY-rRAAPacJxgk5zRhP0QJKn0x7fi-2EtbNhPnSyK5mcpbbDpu",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF0ZGpvrTRcE9SL4cLcxSWBNBZcd2Gdr4qvcI3zNhww7YANPu0",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRC-mExk7RUnRX5F8XeHyy1gyn_rCe8ZerCWb80A6pg79Ezw9u5",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThCrPn-RdUMFwrnuyLM-Uz8_zTNeiykBmvjnxApf1Ri6EBA81p",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSgnmDppIrFtefb9tNLACwC4U5fsR1HXfyYqZJUpkVcBz0Il4RD",
+  "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRaC7YPzLUY29LPaMT-sUgHsgFHcKdqxOW_Tat2Pbp4vv6k5ED7",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ2RTGj6wIs_FAWBC4KCXPuvdHRnt4anbzb9i_CHuU4yl6rM6EL",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqRpAlBiy05pge8lLmznQBytSUx7Bmw2LzHfrVuci1pQ0YJpSv",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcS5LcH0RlOUg0BLByeqI5G5Ny2BvYWxdjK6kfIr4Z4Xb7nhXXz6",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQF3FrbDwd6MPRGNGx9vXkauvpBpmDUMghZt6s9tn8hMU3aDLMF",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcT31dG5YK2U7sAxtaGM4rLNTHnvjSWyvkPxW4tEZDDHcD2gGl4s",
+  "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT-z49EiwQl5OJVgXgQo6OYD8HvGumEzAfm7IuZiOhkPiKrfNeI",
+  "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSm8Xo3IVl0b2foDSMfwWsGhakYVsAZgiAuqpTQjA8b5UMc-oEC",
+  "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQnHDbJFDDZYC5g9gHa6-NqBE8JUet_iRIPXJym8CtaHsVQa76M",
+  "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTW7MdBhKKtzWRoy4gtHR7YZ2hv6ln1cxpZCNwnXAR8dHPDz-eO",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQ0WkhDANdm4gfsieJI8gdQKnnmpnrXJtv9h5UEf6n9h1DezHc"
+
+  ]
+  const Ratings = [
+    6.8,
+    6.8,
+    5.5,
+    7.4,
+    7.4,
+    6.4,
+    7.4,
+    6.3,
+    5.6,
+    6.2,
+    6.3,
+    null,
+    6.4,
+    6.1,
+    5.6,
+    6.0,
+    4.7,
+    6.0,
+    5.2,
+    4.5,
+    4.1
+  ]
+  const Descriptions = [
+    'Four years after the events of last year\'s Halloween Kills, Laurie is living with her granddaughter Allyson and is finishing writing her memoir. Michael Myers hasn\'t been seen since. Laurie, after allowing the specter of Michael to determine and drive her reality for decades, has decided to liberate herself from fear and rage and embrace life. But when a young man, Corey Cunningham, is accused of killing a boy he was babysitting, it ignites a cascade of violence and terror that will force Laurie to finally confront the evil she can\'t control, once and for all',
+    'Esther\'s terrifying saga continues in this thrilling prequel to the original and shocking horror hit, Orphan. After orchestrating a brilliant escape from an Estonian psychiatric facility, Esther travels to America by impersonating the missing daughter of a wealthy family. Yet, an unexpected twist arises that pits her against a mother who will protect her family from the murderous "child" at any cost.',
+    'A sci-fi thriller about a space mission sent to terraform a distant planet. However, the mission encounters something unknown that has its own plan for the planet.',
+    'Drowning in a sea of grief, 51 painful weeks after the life-altering incident that scarred her for life, emotionally fragile rock climber Becky reluctantly decides to confront her fears. And as her thrill-seeking friend Hunter re-enters Becky\'s ruined life, the two experienced climbers embark on a high-risk climbing adventure to the top of the abandoned 2,000-foot B67 TV tower: an anxiety-inducing, vertigo-inspiring construction of weather-beaten metal and rattling rivets in the middle of the Mojave desert.',
+    'Based on Marvel Comics\' superhero character, this is a story of Peter Parker who is a nerdy high-schooler. He was orphaned as a child, bullied by jocks, and can\'t confess his crush for his stunning neighborhood girl Mary Jane Watson. To say his life is "miserable" is an understatement. But one day while on an excursion to a laboratory a runaway radioactive spider bites him... and his life changes in a way no one could have imagined. Peter acquires a muscle-bound physique, clear vision, ability to cling to surfaces and crawl over walls, shooting webs from his wrist. ',
+    'The Elric brothers\' long and winding journey comes to a close in this epic finale, where they must face off against an unworldly, nationwide threat.',
+    "A year after her mother's death, Sidney Prescott (Neve Campbell) and her friends started experiencing some strange phone calls. They later learned the calls were coming from a crazed serial killer, in a white faced mask and a large black robe, looking for revenge. His phone calls usually consist of many questions, the main one being: What's your favorite scary movie? Along with much scary movie trivia, ending with bloody pieces of innocent lives scattered around the small town of Woodsboro.",
+    "Two years after the events of Scream, Sidney Prescott and Randy are attending Windsor college. They are trying to get on with their lives...Until a new Ghostface killing spree begins. With the help of Dewey and Gale, Sidney must find out who's behind the murders. As the body count goes up, the list of suspects goes down.",
+    "A new film is currently in production, and a killer is on the loose. The murders draw a reporter, ex-cop, and young woman to the set of the movie inspired by their life. They soon find out that they are dealing with a trilogy, and in a trilogy...anything can happen.",
+    "Sidney Prescott, now the author of a self-help book, returns home to Woodsboro on the last stop of her book tour. There she reconnects with Sheriff Dewey and Gale, who are now married, as well as her cousin Jill and her Aunt Kate. Unfortunately, Sidney's appearance also brings about the return of Ghostface, putting Sidney, Gale, and Dewey, along with Jill, her friends, and the whole town of Woodsboro in danger.",
+    "Like the original movie 25 years ago, a cute teenage girl is at home alone when the phone rings. A man wants to play a game with her. With the threat of killing her best friend, Tara's forced to play along. She barely survives the ghost face masked intruder's stabbing. Her 5 year older sister, Sam(antha), who left home at 18 due to mental problems, Sam's boyfriend and Tara's high school friends visit her at the hospital. Later on in a bar, a guy provokes the friends and is later attacked outside in the parking lot by Ghostface.",
+    "Following the latest Ghostface killings, the four survivors leave Woodsboro behind and start a fresh chapter. In Scream VI, Melissa Barrera (\"Sam Carpenter\"), Jasmin Savoy Brown (\"Mindy Meeks-Martin\"), Mason Gooding (\"Chad Meeks-Martin\"), Jenna Ortega (\"Tara Carpenter\"), Hayden Panettiere (\"Kirby Reed\") and Courteney Cox (\"Gale Weathers\") return to their roles in the franchise alongside Jack Champion, Henry Czerny, Liana Liberato, Dermot Mulroney, Devyn Nekoda, Tony Revolori, Josh Segarra, and Samara Weaving.—Paramount",
+    "In 1957, a young boy named Jason drowns in a lake near Camp Crystal Lake. The next year, two counselors are murdered. In 1980, a descendant of the original owners reopens Camp Crystal Lake with some counselors' help. The counselors gets killed one by one by a mysterious person. Could it be Jason, out for revenge?",
+    "Months after Alice beheaded psycho killer/mother Pamela Voorhees at Camp Crystal Lake, survivor Alice is still traumatized because of the murders. But there is one problem: Mrs. Voorhees' son Jason never drowned and died, so he saw Alice behead Mrs. Voorhees. Jason finds Alice soon and murders her. Five years later, a camp counselor-in-training program begins at Packanack Lodge, right near Camp Crystal Lake. As teenagers in the program start snooping around Camp Crystal Lake, they start getting killed violently one by one.",
+    "Jason Voorhees, having barely survived a wound to his shoulder from his own machete, is back to revenge on all that visit \"his\" woods. A new group of friends come over to party at an area close to the campsite. This time, Jason will be stronger than ever, and getting a hockey mask from one of those friends.",
+    "After being stabbed in the head by Chris Higgins. Jason Vorhees is believed to be dead and is taken to a Hospital for an Autopsy. However, He is Alive and kills a Doctor and a Nurse and is loose once more. He Returns to Camp Crystal Lake where Young Boy Tommy Jarvis lives with his Mother and Older Sister. A Group of Teenagers move in to a House next door to the Jarvis House. Jason begins killing the Teenagers and kills Tommy's Mother. It's now up to Tommy and His Older Sister to kill Jason and end his murderous rampage once and for all.",
+    "Five years after killing the goalie hockey-masked killer Jason Voorhees, Tommy Jarvis has grown up in various mental hospitals unable to get over the nightmares about Jason's return. When Tommy is sent to a rural halfway house in New Jersey for mentally disturbed teenagers, a series of grisly murders begin anew as another hockey-masked killer begins killing off all people at and around the residence. Has Jason returned from the dead to re-start his killing spree? Has Tommy decided to take over the reign of Jason, or has someone else?",
+    "Tommy Jarvis returns to the graveyard to make sure Jason Voorhees is dead and accidentally brings him back to life. Now it's up to Tommy to stop Jason's mindless killing and put him back where he belongs.",
+    "After Jason Vorhees was chained to the Bottom of Camp Crystal Lake by Tommy Jarvis. A Young Telekinetic Girl known as Tina Shepherd accidentally killed her Father with her Powers at Crystal Lake. Years Later, Tina and Her Mother return to Camp Crystal Lake, Where Tina's Doctor trys to manipulate her powers for his own evil plans. Tina then trys to ressurect Her Father but Accidentally Awakens Jason Instead. It's now up to Tina to use her Powers to Stop Jason and Her Evil Doctor.",
+    "A whole high senior class is finally graduating. For that, they get into a luxury cruise called ''Lazarus''. At the beginning they are all having fun, including our main heroine ''Rennie'' who has a serious problem with the water because of past traumatic events '' Almost got drowned when she was little''. When we get to see all the young teenagers our friend Jason who got on board the ship starts with his killing rampage until we get to see only the main characters of the movie.. ",
+    "The secret of Jason's evil is revealed. It is up to the last remaining descendant of the Voorhees family to stop Jason before he becomes immortal and unstoppable. This is the final (?) battle to end Jason's reign of terror forever."
+  ]
+  function CreateAMovieDiv(Number) {
+    let Div = document.createElement("div");
+    Div.className="movies "+Number;
+    return Div;
+  }
+  function CreateAMovie(MovieName, MovieImgURL, Rating, Overview, Number) {
+    let BigDiv = document.createElement("div");
+    BigDiv.className="movie";
+    BigDiv.setAttribute("onclick",'OpenMovie('+Number+')');
+    let Img = document.createElement("img");
+    Img.className="movieImg";
+    Img.src=MovieImgURL;
+    BigDiv.appendChild(Img);
+    let Name = document.createElement("p");
+    Name.className="movieName";
+    let NameText = document.createTextNode(MovieName);
+    Name.appendChild(NameText);
+    BigDiv.appendChild(Name);
+    let rating = document.createElement("h1");
+    rating.className="rating";
+    let ratingText = document.createTextNode(Rating);
+    rating.appendChild(ratingText);
+    BigDiv.appendChild(rating)
+    let overview = document.createElement("div");
+    overview.className="Overview";
+    let overviewText = document.createTextNode(Overview);
+    overview.appendChild(overviewText);
+    BigDiv.appendChild(overview);
+    return BigDiv;
+  }
+  let AmountOfMovies = Math.ceil((MovieNames.length)/6) 
+  for (let i = 0; i<AmountOfMovies; i++) {
+    document.getElementById("content").appendChild(CreateAMovieDiv(i));
+  }
+  for (let i = 0; i<MovieNames.length; i++) {
+    document.getElementsByClassName("movies")[Math.floor(i/6)].appendChild(CreateAMovie(MovieNames[i],ImageLinks[i],Ratings[i],Descriptions[i],i));
+  }
+  function CloseModal() {
+    document.getElementById("modal").style.display="none";
+  }
+  function OpenMovie(a) {
+    document.getElementById("modal").style.display="block";
+    document.getElementById("source").src=Movies[a];
+    document.getElementById("video").load();
+    document.getElementById("video").play();
+    document.getElementById("Name").innerHTML=MovieNames[a] + " &nbsp; &nbsp; <i onclick='CloseModal()' class='fa-solid fa-square-xmark'></i>";
+    document.getElementById("rating").innerHTML="<span>Rating: </span>"+Ratings[a];
+    document.getElementById("Image").src=ImageLinks[a];
+    document.getElementById("Description").innerHTML=Descriptions[a];
+  }
+</script>
+</body>
+</html>
