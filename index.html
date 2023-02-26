@@ -83,10 +83,42 @@
   .modalText span {
     color:black;
   }
+  #SearchBar {
+    height:7%;
+    background-color:#22222B;
+    border:3px solid white;
+    border-style:hidden hidden solid hidden;
+    width:100%;
+  }
+  #Search {
+    height:100%;
+    font-size:30px;
+    width:75%;
+    padding:1%;
+  }
+  .label {
+    width:71%;
+    padding:2%;
+    color:black;
+    display:none;
+    background-color:white;
+    border:3px solid black;
+    border-style:hidden hidden solid hidden;
+  }
+  .label:hover {
+    background-color:#9ADAF6;
+  }
 </style>
 </head>
-
 <body id="content">
+  <div id="SearchBar">
+    <form style="float:right;padding-right:10%;">
+      <input id="Search" placeholder="Search">
+      <label class="label"></label>
+      <label class="label"></label>
+      <label class="label"></label>
+    </form>
+  </div>
   <div id="modal" style="display:none;">
     <center>
       <h1 class="modalText" id="Name" style="color:white;"></h1>
@@ -393,6 +425,50 @@
       MovieRows[i].style.display="none";
     }
   }
+  function Change() {
+    let str = document.getElementById("Search").value
+    console.log(str=="");
+    if (str=="") {
+      for (let i = 0; i<3; i++) {
+      document.getElementsByClassName("label")[i].style.display="none";
+      }
+    }
+    else {
+      for (let i = 0; i<3; i++) {
+        document.getElementsByClassName("label")[i].innerHTML="";
+      }
+      let a = 0;
+      for (item in MovieNames) {
+        if (MovieNames[item].includes(str)) {
+          var labels = document.getElementsByClassName("label");
+          if (labels[0].innerHTML=="") {
+            labels[0].innerHTML=MovieNames[item];
+            labels[0].setAttribute("onclick",'OpenMovie('+item+')');
+          }
+          else if (labels[1].innerHTML=="") {
+            labels[1].innerHTML=MovieNames[item];
+            labels[1].setAttribute("onclick",'OpenMovie('+item+')');
+          }
+          else if (labels[2].innerHTML=="") {
+            labels[2].innerHTML=MovieNames[item];
+            labels[2].setAttribute("onclick",'OpenMovie('+item+')');
+          }
+          a++;
+        }
+      }
+      if (a>3) {
+        a=3;
+      }
+      for (let i = 0; i<3; i++) {
+        document.getElementsByClassName("label")[i].style.display="none";
+      }
+      for (let i = 0; i<a; i++) {
+        document.getElementsByClassName("label")[i].style.display="block";
+        console.log(i);
+      }
+   }
+  }
+  setInterval(Change,50)
 </script>
 </body>
 </html>
